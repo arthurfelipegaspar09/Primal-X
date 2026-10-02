@@ -1,0 +1,161 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+
+    scrollbar-width:none;
+
+}
+body.fundo1 {
+    background-color: #0b0b0b;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    min-height: 200vh;
+}
+
+.herocontent {
+    padding: 100px 0 0 80px;
+}
+
+.imagemfixa1 {
+    position:absolute;
+    top: 0;
+    right: 0;
+    width: 65%;
+    height: 100vh;
+    z-index: -1;
+
+    background-image: url('../img/motobike.avif');
+    background-size: cover;
+    background-position: center center;
+
+    -webkit-mask-image:
+        radial-gradient(ellipse at 70% 50%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 75%),
+        linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%);
+    mask-image:
+        radial-gradient(ellipse at 70% 50%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 75%),
+        linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%);
+
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+
+    opacity: 0.5;
+}
+
+.descricaopequena {
+    color: rgb(201, 7, 7);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 200px;
+    margin-top: 250px;
+    border-left: 2px solid;
+    padding-left: 8px;
+    height: 20px;
+}
+
+.titulo1 {
+    color: aliceblue;
+    font-family: Impact;
+    letter-spacing: 1;
+    font-size: 50;
+    font-style: oblique;
+    width: 500px;
+    margin-left: 200px;
+}
+
+.neon-text {
+    text-shadow:
+        0 0 20px rgb(26, 27, 27),
+        0 0 40px rgb(45, 128, 43),
+        0 0 80px rgb(23, 165, 42);
+}
+
+.textodescritivo1 {
+    color: gray;
+    font-size: 20;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    width: 400px;
+    margin-left: 200px;
+    text-underline-position: above;
+}
+
+.navdecima {
+  position: fixed;        
+  top: 0;             
+  left: 0;                
+  width: 100%;           
+  background-color:#0b0b0b60; 
+  padding: 17px 0;        
+
+  display: flex;
+  justify-content: center;
+  gap: 90px;   
+  border-bottom: 1px solid rgb(41, 37, 37);          
+}
+
+
+.navdecima a {
+font-family: 'Oswald', sans-serif;
+  font-weight: 600;            
+  font-size: 16px;
+  text-transform: uppercase;    
+  letter-spacing: 2px;          
+  text-decoration: none;
+}
+
+.fogoelementonav {
+    color: rgba(202, 11, 11, 0.774);
+    transition: 4s;
+}
+.aguaelementonav {
+    color: rgba(24, 62, 233, 0.747);
+    transition: 4s;
+}
+.terraelementonav {
+    color: rgba(32, 197, 32, 0.678);
+    transition: 4s;
+}
+.arelementonav {
+    color: rgba(150, 192, 194, 0.74);
+    transition: 4s;
+}
+.fogoelementonav:hover {
+    color: rgba(202, 11, 11);
+        text-shadow:
+        0 0 20px rgba(243, 10, 10, 0.397),
+        0 0 40px rgb(112, 6, 42),
+        0 0 80px rgb(216, 135, 13);
+    transition: 0.4s;
+}
+.aguaelementonav:hover {
+    color: rgba(24, 62, 233);
+           text-shadow:
+        0 0 20px rgba(82, 79, 255, 0.397),
+        0 0 40px rgb(84, 40, 187),
+        0 0 80px rgb(13, 216, 114);
+    transition: 0.4s;
+}
+.terraelementonav:hover {
+    color: rgba(32, 197, 32);
+            text-shadow:
+        0 0 20px rgba(76, 243, 10, 0.397),
+        0 0 40px rgb(6, 112, 20),
+        0 0 80px rgb(13, 216, 216);
+    transition: 0.4s;
+}
+.arelementonav:hover {
+    color: rgba(154, 216, 219);
+            text-shadow:
+        0 0 20px rgba(187, 255, 198, 0.397),
+        0 0 40px rgb(173, 93, 120),
+        0 0 80px rgb(221, 255, 205);
+    transition: 0.4s;
+}
+
+
+
+
+
