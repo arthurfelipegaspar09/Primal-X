@@ -64,7 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 >
             </div>
 
-            <div class="field">
+            
+                <label for="imagem">IMAGEM DO PROJETO</label>
+                <input 
+                    type="file" 
+                    id="imagem" 
+                    name="imagem" 
+                    accept="image/*" 
+                    required
+                >
+            </div><div class="field">
                 <label for="descricao">DESCRIÇÃO</label>
                 <textarea 
                     id="descricao" 
@@ -75,15 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="field">
-                <label for="imagem">IMAGEM DO PROJETO</label>
-                <input 
-                    type="file" 
-                    id="imagem" 
-                    name="imagem" 
-                    accept="image/*" 
-                    required
-                >
-            </div>
 
             <div class="field">
                 <label for="link">LINK DO PROJETO</label>
