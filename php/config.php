@@ -1,95 +1,79 @@
 <?php
-
-
-
+/**
+ * Configuração geral + usuários.
+ * As funções carregarUsuarios / salvarUsuarios / buscarUsuarioPorEmail / criarUsuario
+ * mantêm a mesma assinatura do pacote de login; só o armazenamento mudou
+ * (de $_SESSION para data/usuarios.json) para as contas não sumirem ao sair.
+ */
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/includes/storage.php';
 
-if (!isset($_SESSION['infoSite'])) {
-    $_SESSION['infoSite'] = [
-        'nome_empresa' => 'Minha Empresa',
-        'slogan'       => 'O melhor sistema para você',
-        'contato'      => [
-            'telefone' => '(11) 99999-9999',
-            'email'    => 'contato@empresa.com'
-        ]
+const ARQ_USUARIOS = DIR_DATA . '/usuarios.json';
+
+/** Conta administradora criada na primeira execução. TROQUE a senha após o primeiro acesso. */
+function usuarioAdminPadrao(): array
+{
+    return [
+        'id'    => 1,
+        'nome'  => 'Administrador',
+        'email' => 'admin@empresa.com',
+        'senha' => password_hash('admin123', PASSWORD_DEFAULT),
+        'admin' => true,
     ];
 }
 
-
-if (!isset($_SESSION['usuarios'])) {
-    $_SESSION['usuarios'] = [
-        [
-            'id'        => 1,
-            'nome'      => 'Administrador',
-            
-            'email'     => 'admin@empresa.com',
-            
-            'senha'     => password_hash('admin123', PASSWORD_DEFAULT)
-        ]
-    ];
+function carregarUsuarios(): array
+{
+    if (!is_file(ARQ_USUARIOS)) {
+        json_atualizar(ARQ_USUARIOS, [], fn(array $u) => $u ?: [usuarioAdminPadrao()]);
+    }
+    return json_ler(ARQ_USUARIOS);
 }
 
-
-if (!isset($_SESSION['produtos'])) {
-    $_SESSION['produtos'] = [
-        [
-            'id'        => 1,
-            'nome'      => 'Produto A',
-            'preco'     => 150.00,
-            'descricao' => 'Descrição do primeiro produto.'
-        ],
-        [
-            'id'        => 2,
-            'nome'      => 'Produto B',
-            'preco'     => 299.90,
-            'descricao' => 'Descrição do segundo produto.'
-        ]
-    ];
+function salvarUsuarios(array $usuarios): bool
+{
+    return json_atualizar(ARQ_USUARIOS, [], fn() => array_values($usuarios));
 }
 
-
-function carregarUsuarios(): array {
-    return $_SESSION['usuarios'] ?? [];
-}
-
-
-function salvarUsuarios(array $usuarios): bool {
-    $_SESSION['usuarios'] = $usuarios;
-    return true;
-}
-
-
-function buscarUsuarioPorEmail(string $email): ?array {
-    $usuarios = carregarUsuarios();
-    foreach ($usuarios as $usuario) {
-        if (strtolower($usuario['email']) === strtolower($email)) {
+function buscarUsuarioPorEmail(string $email): ?array
+{
+    foreach (carregarUsuarios() as $usuario) {
+        if (mb_strtolower($usuario['email']) === mb_strtolower($email)) {
             return $usuario;
         }
     }
     return null;
 }
 
+/** Cria o usuário e devolve false se o e-mail já existir (checagem feita dentro do lock). */
+function criarUsuario(string $nome, string $email, string $senha, bool $localizacao = false): bool
+{
+    carregarUsuarios(); // garante o admin padrão antes de qualquer cadastro
+    $criado = false;
 
-function criarUsuario(string $nome, string $email, string $senha): void {
-    $usuarios = carregarUsuarios();
-
-    $novoId = 1;
-    foreach ($usuarios as $usuario) {
-        if (isset($usuario['id']) && $usuario['id'] >= $novoId) {
-            $novoId = $usuario['id'] + 1;
+    json_atualizar(ARQ_USUARIOS, [], function (array $usuarios) use ($nome, $email, $senha, $localizacao, &$criado) {
+        $novoId = 1;
+        foreach ($usuarios as $u) {
+            if (mb_strtolower($u['email']) === mb_strtolower($email)) {
+                return null;
+            }
+            $novoId = max($novoId, ($u['id'] ?? 0) + 1);
         }
-    }
+        $usuarios[] = [
+            'id'          => $novoId,
+            'nome'        => $nome,
+            'email'       => $email,
+            'senha'       => password_hash($senha, PASSWORD_DEFAULT),
+            'admin'       => false,
+            'localizacao' => $localizacao,
+        ];
+        $criado = true;
+        return $usuarios;
+    });
 
-    $usuarios[] = [
-        'id'    => $novoId,
-        'nome'  => $nome,
-        'email' => $email,
-        'senha' => password_hash($senha, PASSWORD_DEFAULT),
-    ];
-
-    salvarUsuarios($usuarios);
+    return $criado;
 }
