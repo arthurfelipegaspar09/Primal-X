@@ -45,16 +45,16 @@ require_once __DIR__ . '/includes/bootstrap.php';
 
 
 
-          <nav class="navbar">
+         <nav class="navbar">
 
-        <div class="nav-link">
+            <div class="nav-link">
 
-            <a href="#">Perfil</a>
+            <a href="./php/perfil.php">Perfil</a>
             <a href="#">compras</a>
             <?php if (!empty($_SESSION['usuario_admin'])): ?><a href="./php/admin.php">painel</a><?php endif; ?>
             <a href="?logout">sair</a>
 
-        </div>
+    </div>
 
         <button class="user-button" onclick="toggleNav()">
             <img src="img/usuario.png" alt="Usuário">
